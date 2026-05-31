@@ -276,10 +276,23 @@
     .product-card-variant {
       background: var(--rose-light);
       color: var(--rose-dark);
-      padding: 3px 10px;
-      border-radius: 12px;
+      padding: 4px 12px;
+      border-radius: 14px;
       font-size: 11px;
       font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 2px solid transparent;
+    }
+    .product-card-variant:hover {
+      background: var(--rose);
+      color: white;
+      transform: scale(1.05);
+    }
+    .product-card-variant.active {
+      background: var(--rose);
+      color: white;
+      border-color: var(--gold);
     }
     .product-card-footer {
       display: flex;
@@ -524,19 +537,23 @@
         const totalStock = p.cantidad;
         const stockClass = totalStock === 0 ? 'stock-none' : 'stock-good';
         const stockLabel = totalStock === 0 ? 'Agotado' : 'Disponible';
-        const variantHtml = variants.slice(0, 4).map(v =>
-          `<span class="product-card-variant">${v.color} (${v.cantidad})</span>`
-        ).join('');
-        const more = variants.length > 4 ? `<span class="product-card-variant">+${variants.length - 4}</span>` : '';
+        const pid = p._id;
 
-        const imgUrl = p.url || (variants[0] && variants[0].image ? variants[0].image : null);
-        const imageHtml = imgUrl
-          ? `<img src="${imgUrl}" alt="${p.nombre}" loading="lazy"><div class="overlay"></div>`
-          : `<span class="no-img">${getIcon(p.categoria)}</span>`;
+        const defaultImg = p.url || (variants[0] && variants[0].image ? variants[0].image : null);
+        const defaultContent = defaultImg
+          ? `<img src="${defaultImg}" id="img-${pid}" alt="${p.nombre}" loading="lazy"><div class="overlay"></div>`
+          : `<span class="no-img" id="img-${pid}">${getIcon(p.categoria)}</span>`;
+
+        const variantHtml = variants.slice(0, 4).map((v, i) => {
+          const active = i === 0 && defaultImg ? 'active' : '';
+          const imgUrl = v.image || p.url || '';
+          return `<span class="product-card-variant ${active}" onclick="setVariant('${pid}','${imgUrl}','${getIcon(p.categoria)}',this)">${v.color} (${v.cantidad})</span>`;
+        }).join('');
+        const more = variants.length > 4 ? `<span class="product-card-variant">+${variants.length - 4}</span>` : '';
 
         return `
           <div class="product-card">
-            <div class="product-card-image">${imageHtml}</div>
+            <div class="product-card-image" id="container-${pid}">${defaultContent}</div>
             <div class="product-card-body">
               <div class="product-card-name">${p.nombre}</div>
               <div class="product-card-category">${p.categoria || 'General'} ${p.material ? '· ' + p.material : ''}</div>
@@ -552,6 +569,22 @@
       $('totalCount').textContent = products.length;
       $('resultsCount').textContent = products.length + ' producto' + (products.length !== 1 ? 's' : '') + ' encontrado' + (products.length !== 1 ? 's' : '');
     }
+
+    function setVariant(pid, imgUrl, fallbackIcon, el) {
+      const container = document.getElementById('container-' + pid);
+      const img = document.getElementById('img-' + pid);
+      if (!container) return;
+      if (img && imgUrl) {
+        if (img.tagName === 'IMG') { img.src = imgUrl; }
+        else { container.innerHTML = `<img src="${imgUrl}" id="img-${pid}" alt="" loading="lazy"><div class="overlay"></div>`; }
+      } else if (!imgUrl) {
+        if (img && img.tagName !== 'IMG') { /* already icon */ }
+        else { container.innerHTML = `<span class="no-img" id="img-${pid}">${fallbackIcon}</span>`; }
+      }
+      document.querySelectorAll('#container-' + pid + ' ~ .product-card-body .product-card-variant').forEach(v => v.classList.remove('active'));
+      if (el) el.classList.add('active');
+    }
+    window.setVariant = setVariant;
 
     $('searchInput').addEventListener('input', () => renderProducts(filterProducts()));
     $('filterCategory').addEventListener('change', () => renderProducts(filterProducts()));
