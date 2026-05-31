@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GLOSS · Catálogo de Maquillaje</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --rose: #E84393;
+      --rose-dark: #C2206A;
+      --rose-light: #FFF0F5;
+      --rose-bg: #FFFAFC;
+      --gold: #D4A574;
+      --gold-light: #F5E6D3;
+      --dark: #1A1A2E;
+      --gray: #6B6B80;
+      --light: #F8F4F9;
+      --shadow: 0 4px 20px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.12);
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--rose-bg);
+      color: var(--dark);
+    }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(135deg, #1A1A2E 0%, #2D1B3D 40%, #4A1942 100%);
+      color: white;
+      padding: 60px 40px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(232,67,147,0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(212,165,116,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 14px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(40px, 6vw, 72px);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .hero h1 span { color: var(--rose); }
+    .hero p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.7);
+      max-width: 500px;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .hero-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 40px;
+    }
+    .hero-stat h3 {
+      font-size: 28px;
+      color: var(--gold);
+    }
+    .hero-stat p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* NAV */
+    .nav-bar {
+      background: white;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      padding: 16px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+    }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--rose);
+    }
+    .nav-brand small {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gray);
+      font-family: 'Inter', sans-serif;
+      margin-left: 8px;
+    }
+    .nav-filters {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .nav-filters select {
+      padding: 10px 16px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: inherit;
+      background: white;
+      outline: none;
+      cursor: pointer;
+      min-width: 140px;
+    }
+    .nav-filters select:focus { border-color: var(--rose); }
+    .search-wrap {
+      position: relative;
+    }
+    .search-wrap input {
+      padding: 10px 16px 10px 38px;
+      border: 2px solid #eee;
+      border-radius: 10px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+      width: 220px;
+      transition: all 0.2s;
+    }
+    .search-wrap input:focus {
+      border-color: var(--rose);
+      width: 280px;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+      font-size: 16px;
+    }
+
+    /* MAIN */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 40px 80px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+    .section-header h2 {
+      font-size: 28px;
+      color: var(--dark);
+    }
+    .section-header p {
+      color: var(--gray);
+      font-size: 14px;
+    }
+    .section-header .count {
+      background: var(--rose-light);
+      color: var(--rose);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    /* GRID */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 24px;
+    }
+
+    /* CARD */
+    .product-card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+    }
+    .product-card-image {
+      height: 200px;
+      background: linear-gradient(135deg, var(--rose-light), #FFF);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+    .product-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .product-card:hover .product-card-image img {
+      transform: scale(1.08);
+    }
+    .product-card-image .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: linear-gradient(transparent, white);
+    }
+    .product-card-image .no-img {
+      font-size: 48px;
+    }
+    .product-card-body {
+      padding: 20px 24px 24px;
+    }
+    .product-card-name {
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .product-card-category {
+      font-size: 12px;
+      color: var(--gray);
+      margin-bottom: 12px;
+    }
+    .product-card-variants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+    .product-card-variant {
+      background: var(--rose-light);
+      color: var(--rose-dark);
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .product-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #f5f5f5;
+      padding-top: 14px;
+    }
+    .product-card-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--dark);
+    }
+    .product-card-price small {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--gray);
+    }
+    .product-card-stock {
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-weight: 500;
+    }
+    .stock-good { background: #E8F5E9; color: #2E7D32; }
+    .stock-low { background: #FFF3E0; color: #E65100; }
+    .stock-critical { background: #FFEBEE; color: #C62828; }
+    .stock-none { background: #f5f5f5; color: #999; }
+
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 100px 20px;
+      color: var(--gray);
+    }
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--rose-light);
+      border-top-color: var(--rose);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ERROR */
+    .error-state {
+      text-align: center;
+      padding: 80px 20px;
+    }
+    .error-state h3 {
+      font-size: 24px;
+      color: var(--rose);
+      margin-bottom: 8px;
+    }
+    .error-state p { color: var(--gray); }
+
+    /* EMPTY */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--gray);
+      grid-column: 1 / -1;
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    .empty-state h3 { color: var(--dark); margin-bottom: 6px; }
+
+    /* FOOTER */
+    .footer {
+      background: var(--dark);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 32px 40px;
+      font-size: 13px;
+    }
+    .footer strong {
+      color: var(--rose);
+      font-family: 'Playfair Display', serif;
+      font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero { padding: 40px 24px 60px; }
+      .hero-stats { flex-wrap: wrap; gap: 20px; }
+      .nav-bar { padding: 12px 16px; }
+      .nav-inner { flex-direction: column; gap: 12px; }
+      .nav-filters { flex-wrap: wrap; width: 100%; }
+      .nav-filters select { flex: 1; min-width: 0; }
+      .search-wrap input { width: 100%; }
+      .main { padding: 24px 16px 40px; }
+      .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+      .section-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-logo">GLOSS</div>
+      <h1>Belleza que <span>inspira</span></h1>
+      <p>Descubre nuestra colección curada de maquillaje profesional. Calidad premium para looks inolvidables.</p>
+      <div class="hero-stats" id="heroStats">
+        <div class="hero-stat"><h3 id="heroProducts">—</h3><p>Productos</p></div>
+        <div class="hero-stat"><h3 id="heroBrands">—</h3><p>Marcas</p></div>
+        <div class="hero-stat"><h3 id="heroColors">—</h3><p>Tonos</p></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NAV -->
+  <nav class="nav-bar">
+    <div class="nav-inner">
+      <div class="nav-brand">GLOSS <small>cosméticos</small></div>
+      <div class="nav-filters">
+        <div class="search-wrap">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="searchInput" placeholder="Buscar producto...">
+        </div>
+        <select id="filterCategory"><option value="">Todas las categorías</option></select>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="section-header">
+      <div>
+        <h2>Catálogo</h2>
+        <p id="resultsCount"></p>
+      </div>
+      <span class="count" id="totalCount">0</span>
+    </div>
+    <div class="product-grid" id="productGrid">
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>Cargando productos...</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p><strong>GLOSS</strong> · Catálogo de Maquillaje · creado por <strong>CREATIX</strong></p>
+  </footer>
+
+  <script>
+    const API = '/api';
+    const TOKEN = null;
+
+    const $ = id => document.getElementById(id);
+
+    async function fetchAPI(path) {
+      const res = await fetch(`${API}${path}`);
+      if (!res.ok) throw new Error('Error ' + res.status);
+      return res.json();
+    }
+
+    function formatCurrency(n) {
+      return '$' + Number(n).toLocaleString('es-MX', { minimumFractionDigits: 2 });
+    }
+
+    const categoryIcons = {
+      'Labiales': '💄', 'Bases': '🧴', 'Correctores': '✨', 'Sombras': '🎨',
+      'Delineadores': '✏️', 'Polvos': '🌸', 'Rubores': '🌹', 'Iluminadores': '💫',
+      'Accesorios': '🪥', 'Ojos': '👁️', 'Cejas': '🌿'
+    };
+
+    function getIcon(cat) {
+      return categoryIcons[cat] || '💄';
+    }
+
+    let allProducts = [];
+
+    async function loadProducts() {
+      try {
+        const products = await fetchAPI('/products?activo=true');
+        allProducts = products;
+        renderProducts(products);
+        loadFilters(products);
+        renderHeroStats(products);
+      } catch (err) {
+        console.error(err);
+        $('productGrid').innerHTML = `
+          <div class="error-state">
+            <h3>No se pudo conectar</h3>
+            <p>Asegúrate de que el servidor de inventario esté corriendo en <strong>localhost:3001</strong></p>
+            <p style="margin-top:8px;color:#999;font-size:13px">${err.message}</p>
+          </div>`;
+      }
+    }
+
+    function renderHeroStats(products) {
+      const brands = [...new Set(products.map(p => p.proveedor))];
+      const variants = products.reduce((s, p) => s + (p.variantes ? p.variantes.filter(v => v.cantidad > 0).length : 1), 0);
+      $('heroProducts').textContent = products.length;
+      $('heroBrands').textContent = brands.length;
+      $('heroColors').textContent = variants;
+    }
+
+    function loadFilters(products) {
+      const cats = [...new Set(products.map(p => p.categoria).filter(Boolean))].sort();
+      const brands = [...new Set(products.map(p => p.proveedor).filter(Boolean))].sort();
+
+      const catSel = $('filterCategory');
+      catSel.innerHTML = '<option value="">Todas las categorías</option>' +
+        cats.map(c => `<option value="${c}">${c}</option>`).join('');
+    }
+
+    function filterProducts() {
+      const search = $('searchInput').value.toLowerCase().trim();
+      const cat = $('filterCategory').value;
+
+      return allProducts.filter(p => {
+        if (search) {
+          const match = p.nombre.toLowerCase().includes(search) ||
+            (p.categoria && p.categoria.toLowerCase().includes(search)) ||
+            (p.variantes && p.variantes.some(v => v.color.toLowerCase().includes(search)));
+          if (!match) return false;
+        }
+        if (cat && p.categoria !== cat) return false;
+        return true;
+      });
+    }
+
+    function renderProducts(products) {
+      const grid = $('productGrid');
+      if (!products.length) {
+        grid.innerHTML = '<div class="empty-state"><div class="icon">🔍</div><h3>Sin resultados</h3><p>Intenta con otros filtros</p></div>';
+        $('totalCount').textContent = '0';
+        $('resultsCount').textContent = '0 productos encontrados';
+        return;
+      }
+
+      grid.innerHTML = products.map(p => {
+        const variants = p.variantes && p.variantes.length ? p.variantes.filter(v => v.cantidad > 0) : [];
+        const totalStock = p.cantidad;
+        const stockClass = totalStock === 0 ? 'stock-none' : 'stock-good';
+        const stockLabel = totalStock === 0 ? 'Agotado' : 'Disponible';
+        const variantHtml = variants.slice(0, 4).map(v =>
+          `<span class="product-card-variant">${v.color} (${v.cantidad})</span>`
+        ).join('');
+        const more = variants.length > 4 ? `<span class="product-card-variant">+${variants.length - 4}</span>` : '';
+
+        const imgUrl = p.url || (variants[0] && variants[0].image ? variants[0].image : null);
+        const imageHtml = imgUrl
+          ? `<img src="${imgUrl}" alt="${p.nombre}" loading="lazy"><div class="overlay"></div>`
+          : `<span class="no-img">${getIcon(p.categoria)}</span>`;
+
+        return `
+          <div class="product-card">
+            <div class="product-card-image">${imageHtml}</div>
+            <div class="product-card-body">
+              <div class="product-card-name">${p.nombre}</div>
+              <div class="product-card-category">${p.categoria || 'General'} ${p.material ? '· ' + p.material : ''}</div>
+              ${variants.length ? `<div class="product-card-variants">${variantHtml}${more}</div>` : ''}
+              <div class="product-card-footer">
+                <div class="product-card-price">${formatCurrency(p.precioVenta)} <small>venta</small></div>
+                <span class="product-card-stock ${stockClass}">${stockLabel}</span>
+              </div>
+            </div>
+          </div>`;
+      }).join('');
+
+      $('totalCount').textContent = products.length;
+      $('resultsCount').textContent = products.length + ' producto' + (products.length !== 1 ? 's' : '') + ' encontrado' + (products.length !== 1 ? 's' : '');
+    }
+
+    $('searchInput').addEventListener('input', () => renderProducts(filterProducts()));
+    $('filterCategory').addEventListener('change', () => renderProducts(filterProducts()));
+
+    loadProducts();
+  </script>
+</body>
+</html>
